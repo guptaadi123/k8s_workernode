@@ -1,0 +1,41 @@
+
+   - name: installing docker
+     package:
+        name: docker
+        state: present
+   - name: adding damemon
+     copy:
+      src: d
+      dest: /etc/docker/daemon.json
+   - name: enabling docker
+     service:
+       name: docker
+       state: restarted
+       enabled: yes
+   - name: adding kube repo
+     copy:
+      src: /k8s/k
+      dest: /etc/yum.repos.d/kubernetes.repo
+   - name: installing kubelet
+     package:
+        name: 
+          - kubelet
+          - kubeadm
+          - kubectl
+          
+        state: present
+
+   - name: enabling kubeadm
+     service:
+       name: kubelet
+       state: started
+       enabled: yes
+
+   - name: installing iproute-tc
+     package:
+        name: iproute-tc
+        state: present
+   - name: config image
+     shell: 'echo -e "net.bridge.bridge-nf-call-ip6tables = 1 \r\n net.bridge.bridge-nf-call-iptables=1" >> /etc/sysctl.d/k8s.conf'
+   - name: running token
+     shell: "{{token}}"
