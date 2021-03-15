@@ -1,4 +1,3 @@
-
    - name: installing docker
      package:
         name: docker
@@ -22,15 +21,12 @@
           - kubelet
           - kubeadm
           - kubectl
-          
         state: present
-
    - name: enabling kubeadm
      service:
        name: kubelet
        state: started
        enabled: yes
-
    - name: installing iproute-tc
      package:
         name: iproute-tc
